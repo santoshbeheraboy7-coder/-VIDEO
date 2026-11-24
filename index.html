@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090b14">
+<title>VIDZORA — Watch Beyond</title>
+<style>
+:root{--bg:#090b14;--panel:#111522;--panel2:#171d2d;--text:#f4f6ff;--muted:#9aa4bb;--line:#252d40;--accent:#7c5cff;--cyan:#22d3ee}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% -10%,#24204c 0,transparent 32%),var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button,input{font:inherit}button{cursor:pointer}.topbar{height:72px;display:flex;align-items:center;gap:22px;padding:0 5%;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5;background:#090b14ed;backdrop-filter:blur(16px)}
+.brand{font-size:24px;font-weight:900;letter-spacing:1.5px;white-space:nowrap}.brand span{color:var(--cyan)}.search{flex:1;max-width:620px;margin:auto;display:flex;background:var(--panel);border:1px solid var(--line);border-radius:30px;overflow:hidden}.search input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--text);padding:12px 18px}.search button{border:0;background:var(--panel2);color:white;padding:0 20px}.upload-btn,.primary{border:0;border-radius:24px;background:linear-gradient(110deg,var(--accent),#386bff);color:white;font-weight:700;padding:11px 18px;white-space:nowrap}.layout{display:grid;grid-template-columns:220px minmax(0,1fr);max-width:1500px;margin:auto}.sidebar{padding:26px 16px;border-right:1px solid var(--line);min-height:calc(100vh - 72px)}.nav{display:flex;align-items:center;gap:13px;padding:12px 14px;color:var(--muted);border-radius:12px;margin:4px 0}.nav.active,.nav:hover{background:var(--panel2);color:white}.side-note{margin:28px 12px;color:var(--muted);font-size:12px}.main{padding:28px 3.5% 60px;min-width:0}.hero{padding:28px 30px;border:1px solid #39345f;border-radius:22px;background:linear-gradient(115deg,#201c43,#111a30 65%,#102c3b);margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;gap:20px;overflow:hidden}.hero h1{font-size:clamp(25px,4vw,42px);line-height:1.1;margin:0 0 10px}.hero p{color:#c1c9dc;margin:0 0 18px}.hero-art{font-size:74px;filter:drop-shadow(0 8px 30px #5b52ff88)}.chips{display:flex;gap:9px;overflow:auto;padding:0 0 22px}.chip{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:22px;padding:8px 15px;white-space:nowrap}.chip.active,.chip:hover{background:white;color:#111;border-color:white}.section-head{display:flex;align-items:center;justify-content:space-between;margin:5px 0 18px}.section-head h2{font-size:21px;margin:0}.count{color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px 18px}.video-card{min-width:0;cursor:pointer}.thumb{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#242c49,#151827);border-radius:15px;overflow:hidden;border:1px solid #ffffff12;display:grid;place-items:center}.thumb img{width:100%;height:100%;object-fit:cover}.thumb .emoji{font-size:48px;opacity:.85}.duration{position:absolute;right:9px;bottom:9px;background:#05070bdc;padding:2px 7px;border-radius:5px;font-size:11px}.video-info{display:flex;gap:11px;padding-top:11px}.avatar{width:37px;height:37px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--cyan));display:grid;place-items:center;flex:none;font-weight:800}.video-info h3{font-size:14px;line-height:1.35;margin:0 0 5px}.meta{font-size:12px;color:var(--muted)}.empty{grid-column:1/-1;text-align:center;padding:60px 15px;color:var(--muted);background:var(--panel);border:1px dashed var(--line);border-radius:16px}.empty strong{display:block;color:white;font-size:18px;margin-bottom:5px}
+.modal{position:fixed;inset:0;background:#000b;z-index:10;display:none;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.modal-box{background:var(--panel);border:1px solid var(--line);border-radius:18px;width:min(760px,100%);max-height:92vh;overflow:auto;padding:20px}.modal-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.modal-top h2{margin:0;font-size:20px}.close{background:var(--panel2);border:0;color:white;border-radius:50%;width:36px;height:36px;font-size:20px}.form-row{margin:13px 0}.form-row label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}.form-row input{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:#0b0e18;color:white;outline:none}.hint{font-size:12px;color:var(--muted);margin-top:12px}.player{width:100%;max-height:58vh;background:#000;border-radius:12px}.player-title{font-size:19px;margin:13px 0 5px}.player-meta{color:var(--muted);font-size:13px}.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#20283a;color:white;border:1px solid var(--line);padding:11px 17px;border-radius:24px;display:none;z-index:20}.toast.show{display:block}footer{text-align:center;color:var(--muted);font-size:12px;padding:35px 10px}
+@media(max-width:1050px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.layout{grid-template-columns:185px minmax(0,1fr)}}
+@media(max-width:700px){.topbar{height:auto;min-height:64px;padding:12px 4%;gap:10px;flex-wrap:wrap}.brand{font-size:21px}.search{order:3;flex-basis:100%;max-width:none}.upload-btn{margin-left:auto;padding:9px 13px}.layout{display:block}.sidebar{display:none}.main{padding:20px 4% 40px}.hero{padding:22px}.hero-art{font-size:48px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}.video-info{gap:8px}.avatar{width:31px;height:31px}.video-info h3{font-size:13px}}
+@media(max-width:420px){.grid{grid-template-columns:1fr}.hero-art{display:none}.hero{padding:22px 20px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">VID<span>ZORA</span></div>
+  <form class="search" id="searchForm"><input id="searchInput" type="search" placeholder="Search videos..." aria-label="Search videos"><button type="submit" aria-label="Search">⌕</button></form>
+  <button class="upload-btn" id="openUpload">＋ Upload</button>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="nav active">⌂ &nbsp; Home</div>
+    <div class="nav" id="shortsNav">▶ &nbsp; Explore</div>
+    <div class="nav" id="uploadsNav">▣ &nbsp; Your uploads</div>
+    <div class="side-note">YOUR VIDEO UNIVERSE<br><br>Discover ideas. Share stories. Watch beyond.</div>
+  </aside>
+  <main class="main">
+    <section class="hero">
+      <div><h1>Watch Beyond.<br><span style="color:var(--cyan)">Imagine More.</span></h1><p>Your space for videos, creators and fresh ideas.</p><button class="primary" id="heroUpload">Upload a video&nbsp; ↗</button></div>
+      <div class="hero-art">▶</div>
+    </section>
+    <div class="chips" id="chips">
+      <button class="chip active" data-filter="All">All</button>
+      <button class="chip" data-filter="Music">Music</button>
+      <button class="chip" data-filter="Gaming">Gaming</button>
+      <button class="chip" data-filter="Technology">Technology</button>
+      <button class="chip" data-filter="Education">Education</button>
+      <button class="chip" data-filter="Entertainment">Entertainment</button>
+    </div>
+    <div class="section-head"><h2 id="sectionTitle">Recommended videos</h2><span class="count" id="videoCount"></span></div>
+    <section class="grid" id="videoGrid"></section>
+    <footer>© <span id="year"></span> VIDZORA · Watch Beyond</footer>
+  </main>
+</div>
+
+<div class="modal" id="uploadModal" role="dialog" aria-modal="true" aria-labelledby="uploadHeading">
+  <div class="modal-box">
+    <div class="modal-top"><h2 id="uploadHeading">Upload your video</h2><button class="close" data-close="uploadModal">×</button></div>
+    <form id="uploadForm">
+      <div class="form-row"><label for="videoFile">Choose video file *</label><input id="videoFile" type="file" accept="video/*" required></div>
+      <div class="form-row"><label for="videoTitle">Video title *</label><input id="videoTitle" maxlength="100" placeholder="Give your video a title" required></div>
+      <div class="form-row"><label for="videoCategory">Category</label><input id="videoCategory" maxlength="30" placeholder="e.g. Music, Gaming, Education"></div>
+      <div class="form-row"><label for="videoCreator">Creator name</label><input id="videoCreator" maxlength="40" placeholder="Your channel name"></div>
+      <button class="primary" type="submit">Add video to VIDZORA</button>
+      <p class="hint">Demo upload: your selected video is added locally in this browser session. It is not published to a server or visible to other users.</p>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="playerModal" role="dialog" aria-modal="true" aria-labelledby="playerTitle">
+  <div class="modal-box">
+    <div class="modal-top"><span style="color:var(--muted);font-size:13px">NOW PLAYING</span><button class="close" data-close="playerModal">×</button></div>
+    <video class="player" id="videoPlayer" controls playsinline></video>
+    <h2 class="player-title" id="playerTitle"></h2><div class="player-meta" id="playerMeta"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const demoVideos = [
+ {id:1,title:"Explore the Future of Technology",creator:"VIDZORA Studio",category:"Technology",views:"12K views",age:"2 days ago",duration:"08:24",emoji:"🚀",color:"linear-gradient(135deg,#172e61,#287f9b)"},
+ {id:2,title:"Chill Music Mix for Your Day",creator:"Sound Wave",category:"Music",views:"84K views",age:"1 week ago",duration:"32:10",emoji:"🎧",color:"linear-gradient(135deg,#532d75,#d05b91)"},
+ {id:3,title:"Epic Gaming Moments",creator:"PlayZone",category:"Gaming",views:"25K views",age:"3 days ago",duration:"14:06",emoji:"🎮",color:"linear-gradient(135deg,#183f3a,#37a88a)"},
+ {id:4,title:"Learn Something New Today",creator:"Bright Academy",category:"Education",views:"9.2K views",age:"5 days ago",duration:"11:42",emoji:"💡",color:"linear-gradient(135deg,#65431d,#d69a39)"},
+ {id:5,title:"Creative Ideas That Inspire",creator:"Create Daily",category:"Entertainment",views:"18K views",age:"1 day ago",duration:"06:51",emoji:"✨",color:"linear-gradient(135deg,#4b286d,#7972d9)"},
+ {id:6,title:"A Journey Through Space",creator:"Cosmic View",category:"Technology",views:"53K views",age:"2 weeks ago",duration:"19:35",emoji:"🌌",color:"linear-gradient(135deg,#101b49,#574ba8)"}
+];
+let videos=[...demoVideos], activeFilter="All", searchTerm="", uploadsOnly=false, currentObjectUrl=null;
+const grid=document.getElementById("videoGrid");
+const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function render(){
+ const shown=videos.filter(v=>(!uploadsOnly||v.local)&&(activeFilter==="All"||v.category.toLowerCase()===activeFilter.toLowerCase())&&(`${v.title} ${v.creator} ${v.category}`).toLowerCase().includes(searchTerm));
+ document.getElementById("sectionTitle").textContent=uploadsOnly?"Your uploads":searchTerm?`Search results for “${searchTerm}”`:"Recommended videos";
+ document.getElementById("videoCount").textContent=`${shown.length} video${shown.length===1?"":"s"}`;
+ if(!shown.length){grid.innerHTML='<div class="empty"><strong>No videos found</strong>Try another search or upload your first video.</div>';return;}
+ grid.innerHTML=shown.map(v=>`<article class="video-card" data-id="${v.id}" tabindex="0" role="button" aria-label="Play ${escapeHTML(v.title)}">
+   <div class="thumb" style="background:${v.color||'linear-gradient(135deg,#242c49,#151827)'}">${v.thumb?`<img src="${v.thumb}" alt="">`:`<span class="emoji">${v.emoji||"▶"}</span>`}<span class="duration">${v.duration||"VIDEO"}</span></div>
+   <div class="video-info"><div class="avatar">${escapeHTML((v.creator||"V").slice(0,1).toUpperCase())}</div><div><h3>${escapeHTML(v.title)}</h3><div class="meta">${escapeHTML(v.creator)}<br>${escapeHTML(v.views||"New video")} · ${escapeHTML(v.age||"Just now")}</div></div></div>
+ </article>`).join("");
+}
+function openModal(id){document.getElementById(id).classList.add("show")}
+function closeModal(id){document.getElementById(id).classList.remove("show")}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2600)}
+document.getElementById("openUpload").onclick=()=>openModal("uploadModal");
+document.getElementById("heroUpload").onclick=()=>openModal("uploadModal");
+document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>closeModal(b.dataset.close));
+document.querySelectorAll(".modal").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)closeModal(m.id)}));
+document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".modal.show").forEach(m=>closeModal(m.id))});
+document.getElementById("searchForm").addEventListener("submit",e=>{e.preventDefault();searchTerm=document.getElementById("searchInput").value.trim().toLowerCase();uploadsOnly=false;render()});
+document.getElementById("searchInput").addEventListener("input",e=>{searchTerm=e.target.value.trim().toLowerCase();uploadsOnly=false;render()});
+document.getElementById("chips").addEventListener("click",e=>{const b=e.target.closest("[data-filter]");if(!b)return;activeFilter=b.dataset.filter;document.querySelectorAll(".chip").forEach(c=>c.classList.toggle("active",c===b));uploadsOnly=false;render()});
+document.getElementById("uploadsNav").onclick=()=>{uploadsOnly=true;activeFilter="All";searchTerm="";document.getElementById("searchInput").value="";document.querySelectorAll(".chip").forEach(c=>c.classList.toggle("active",c.dataset.filter==="All"));render()};
+document.getElementById("shortsNav").onclick=()=>{uploadsOnly=false;activeFilter="All";searchTerm="";document.getElementById("searchInput").value="";render()};
+grid.addEventListener("click",e=>{const card=e.target.closest("[data-id]");if(card)playVideo(Number(card.dataset.id))});
+grid.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches("[data-id]")){e.preventDefault();playVideo(Number(e.target.dataset.id))}});
+function playVideo(id){
+ const v=videos.find(x=>x.id===id);if(!v)return;
+ const player=document.getElementById("videoPlayer");
+ if(currentObjectUrl){URL.revokeObjectURL(currentObjectUrl);currentObjectUrl=null}
+ if(v.file){currentObjectUrl=URL.createObjectURL(v.file);player.src=currentObjectUrl}
+ else if(v.src){player.src=v.src}
+ else{toast("This is a sample card. Upload a video file to play it.");return}
+ document.getElementById("playerTitle").textContent=v.title;
+ document.getElementById("playerMeta").textContent=`${v.creator} · ${v.category}`;
+ openModal("playerModal");player.play().catch(()=>{});
+}
+document.getElementById("playerModal").addEventListener("click",e=>{if(e.target.id==="playerModal")document.getElementById("videoPlayer").pause()});
+document.getElementById("playerModal").querySelector('[data-close]').addEventListener("click",()=>document.getElementById("videoPlayer").pause());
+document.getElementById("uploadForm").addEventListener("submit",e=>{
+ e.preventDefault();const file=document.getElementById("videoFile").files[0];if(!file)return;
+ if(!file.type.startsWith("video/")){toast("Please choose a valid video file.");return}
+ const title=document.getElementById("videoTitle").value.trim();if(!title)return;
+ const category=document.getElementById("videoCategory").value.trim()||"Entertainment";
+ const creator=document.getElementById("videoCreator").value.trim()||"You";
+ videos.unshift({id:Date.now(),title,creator,category,views:"New video",age:"Just now",duration:"LOCAL",emoji:"▶",color:"linear-gradient(135deg,#263c70,#237e8b)",file,local:true});
+ e.target.reset();activeFilter="All";searchTerm="";uploadsOnly=false;document.getElementById("searchInput").value="";
+ document.querySelectorAll(".chip").forEach(c=>c.classList.toggle("active",c.dataset.filter==="All"));
+ closeModal("uploadModal");render();toast("Video added! Select its card to play.");
+});
+document.getElementById("year").textContent=new Date().getFullYear();
+render();
+</script>
+</body>
+</html>
